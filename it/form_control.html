@@ -1,0 +1,82 @@
+<!--
+
+  Applicare questi controlli in js al form di login della home,
+  possibilmente mettendoli in un file js a parte nome:(form_log_control.js)
+
+  quando premi il submit senza aver compilato i campi non succede nulla
+  non da nessun errore
+
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Prova</title>
+    <style>
+      input.radio {
+        display: none;
+      }
+    </style>
+</head>
+
+<body>
+    <form action="" onsubmit="return check_data()" name="log_form" method="<get></get>">
+        User: <input type="text" name="user" placeholder="User">
+        <br><span id="error_user" style="color: red;"></span> <br>
+        Password: <input type="password" name="psw" placeholder="password">
+        <br><span id="error_psw" style="color: red;"></span> <br>
+        <input type="radio" name="gender" value="male" class = "radio">  <br>
+        <input type="radio" name="gender" value="female" class = "radio" >  <br>
+        <span id="error_radio" style="color: red;"></span> <br>
+        <input type="submit" name="submit" value="LogIn">
+    </form>
+
+    <script>
+        function check_data() {
+            var user =
+                document.log_form.user.value;
+            var psw =
+                document.log_form.psw.value;
+
+            if (user == '') {
+                document.getElementById("error_user").innerHTML = 'Devi inserire il tuo nome utente';
+                return false;
+            } else {
+                var checkUserAlunno = /\w\d\d\d\d\d/;
+                var checkUserDocente = /\w\W/;
+
+                var fcD = user.charAt(1);
+                var fcA = user.charAt(0);
+
+                if (checkUserAlunno.test(user) && user.length === 6 && (fcA === 'a' || fcA === 'A')) { //alunno
+                    document.getElementById("error_user").innerHTML = '';
+                    document.getElementsByName("gender")[0].checked = true;
+                } else if(fcD === '.' && checkUserDocente.test(user.substr(0,2))) { //docente
+                    document.getElementById("error_user").innerHTML = '';
+                    document.getElementsByName("gender")[1].checked = true;
+                } else {
+                  document.getElementById("error_user").innerHTML = 'Nome Utente Errato!';
+                  document.getElementsByName("gender")[0].checked = false;
+                  document.getElementsByName("gender")[1].checked = false;
+                  return false;
+                }
+            }
+
+
+
+            if (psw == '') {
+                document.getElementById("error_psw").innerHTML = 'Devi inserire la tua password';
+                return false;
+            } else {
+                document.getElementById("error_psw").innerHTML = '';
+            }
+
+
+
+            
+            return true;
+        }
+    </script>
+</body>
+</html>
